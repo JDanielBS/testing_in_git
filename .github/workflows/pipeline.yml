@@ -1,0 +1,30 @@
+ name: Jasmine Test
+
+  on:
+    push:
+      branches: [main]
+    pull_request:
+      branches: [main]
+      types: [opened, synchronize]
+  
+  jobs:
+    test:
+      runs-on: ubuntu-latest
+      steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Install dependencies
+        run: npm install
+      - name: Run Jasmine Test
+        run : npm test
+  
+    build:
+      runs-on: ubuntu-latest
+      needs: test
+      steps:
+        - uses: actions/checkout@v4
+        - uses: actions/setup-node@v4
+          with:
+            node-version: 18
+        - run: npm ci
+        - run: npm test
